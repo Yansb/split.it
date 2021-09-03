@@ -1,59 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:split_it/modules/home/widgets/app_bar_widget.dart';
+import 'package:split_it/modules/home/widgets/event_tile_widget.dart';
 import 'package:split_it/modules/login/models/user_model.dart';
-import 'package:split_it/theme/app_colors.dart';
-import 'package:split_it/theme/app_theme.dart';
+import 'package:split_it/shared/models/event_model.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final events = [
+    EventModel(
+      created: DateTime.now(),
+      title: "Churrasco",
+      people: 2,
+      value: 23,
+    ),
+    EventModel(
+      created: DateTime.now(),
+      title: "Hamburguer",
+      people: 2,
+      value: -23,
+    ),
+    EventModel(
+      created: DateTime.now(),
+      title: "Comida",
+      people: 2,
+      value: 53,
+    ),
+    EventModel(
+      created: DateTime.now(),
+      title: "Comida",
+      people: 2,
+      value: 53,
+    ),
+    EventModel(
+      created: DateTime.now(),
+      title: "Comida",
+      people: 2,
+      value: 53,
+    ),
+    EventModel(
+      created: DateTime.now(),
+      title: "Comida",
+      people: 2,
+      value: 53,
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     final UserModel user =
         ModalRoute.of(context)!.settings.arguments as UserModel;
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
+      appBar: AppBarWidget(
+        onTapAddButton: () {},
+        user: user,
+      ),
+      body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SingleChildScrollView(
+            child: Column(
               children: [
-                ClipRRect(
-                  child: SizedBox(
-                    height: 56,
-                    width: 56,
-                    child: Image.network(
-                      user.photoUrl!,
-                    ),
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Text(
-                  user.name!,
-                  style: AppTheme.textStyles.appBar,
-                ),
+                ...events.map((e) => EventTileWidget(data: e)).toList()
               ],
             ),
-            GestureDetector(
-              child: Container(
-                height: 56,
-                width: 48,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      color: new Color.fromRGBO(255, 255, 255, 0.25)),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(Icons.add),
-              ),
-            )
-          ],
-        ),
-        toolbarHeight: 160,
-        backgroundColor: AppTheme.colors.backgroundSecondary,
-      ),
+          )),
     );
   }
 }
